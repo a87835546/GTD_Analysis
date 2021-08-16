@@ -22,7 +22,6 @@
 	import * as d3 from 'd3';
 	import * as Canvas from 'canvas'
 	import * as cloud from "d3-cloud";
-
 	const width = 1024
 	const height = 768
 	var sizeMap = [100, 60, 60, 50, 50, 40, 40, 30]
@@ -192,6 +191,9 @@
 				myWordCloud.update(procData(type, yearBegin, yearEnd))
 				myWordCloud.update(procData(type, yearBegin, yearEnd))
 			},
+			readData(){
+				
+			}
 		},
 	}
 </script>

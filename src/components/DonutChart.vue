@@ -33,11 +33,21 @@
 		data() {
 			return {
 				gnames: [],
+				pricesData: []
 			}
 		},
 		methods: {
 			init: function() {
 				rawData = this.getDonutChartData()
+					d3.csv('./data.csv', d => ({
+						id: d.ID,
+						conduct: +d.conduct_national,
+						national: d.national,
+						prices: +d.prices,
+					})).then(function(d) {
+						this.pricesData = JSON.parse(JSON.stringify(d));
+						print(this.pricesData)
+					})
 				// 不重复取所有组织名
 				this.gnames = [...new Set(rawData.map(d => d.name))]
 				// 计算每种type的attack之和

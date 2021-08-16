@@ -6,12 +6,14 @@ var lineChartData = []
 var raceChartData = []
 var choroplethData = []
 var donutChartData = []
+var pricesData = []
 
 function loadData(lineChartDataCallback,
 	wordCloudDataCallback,
 	raceChartDataCallback,
 	choroplethDataCallback,
-	donutChartCallback) {
+	donutChartCallback,
+	pricesChartCallback) {
 	d3.csv('./lineChart.csv', d => ({
 		type: +d.type,
 		year: +d.year,
@@ -64,6 +66,16 @@ function loadData(lineChartDataCallback,
 		donutChartCallback();
 	})
 
+	d3.csv('./data.csv', d => ({
+		id: d.ID,
+		conduct: +d.conduct_national,
+		national: d.national,
+		prices: +d.prices,
+	})).then(function(d) {
+		pricesData = JSON.parse(JSON.stringify(d));
+		pricesChartCallback();
+	})
+
 }
 
 function getWordCloudData() {
@@ -84,6 +96,10 @@ function getChoroplethData() {
 
 function getDonutChartData() {
 	return donutChartData;
+}
+
+function getPricesData(){
+	return pricesData;
 }
 
 var attackTypeMap = ['',
@@ -3684,18 +3700,21 @@ export default {
 			wordCloudDataCallback,
 			raceChartDataCallback,
 			choroplethDataCallback,
-			donutChartCallback
+			donutChartCallback,
+			pricesChartCallback
 		) => loadData(
 			lineChartDataCallback,
 			wordCloudDataCallback,
 			raceChartDataCallback,
 			choroplethDataCallback,
-			donutChartCallback)
+			donutChartCallback,
+			pricesChartCallback)
 		Vue.prototype.getLineChartData = () => getLineChartData()
 		Vue.prototype.getWordCloudData = () => getWordCloudData()
 		Vue.prototype.getRaceChartData = () => getRaceChartData()
 		Vue.prototype.getChoroplethData = () => getChoroplethData()
 		Vue.prototype.getDonutChartData = () => getDonutChartData()
+		Vue.prototype.getPricesData = () => getPricesData()
 	}
 
 }
